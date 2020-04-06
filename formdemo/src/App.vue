@@ -1,32 +1,35 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="nav">
+      <HeadNav></HeadNav>
     </div>
-    <router-view/>
+    <div class="main">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
-
-<style>
+<script>
+import HeadNav from "@/components/HeadNav.vue";
+export default {
+  components: {
+    HeadNav
+  }
+};
+</script>
+<style lang="scss" >
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+  width: 100vw;
+  height: 100vh;
+  // position: relative;
+  // background-color: #ff0;
+  .nav {
+    height: 70px;
+    width: 100%;
+  }
+  .main {
+    // calc计算符号两边一定要有空格，否则无效
+    height: calc(100% - 70px);
+    width: 100%;
+  }
 }
 </style>
