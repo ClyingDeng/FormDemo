@@ -31,5 +31,15 @@ export default {
     height: calc(100% - 70px);
     width: 100%;
   }
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(#b6e6ff, #409eff);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
 }
 </style>

@@ -72,14 +72,12 @@ export default {
           }
           // 接下来就是xlsx
           wb = XLSX.read(binary, {
-            type: "binary"
+            type: "binary",
+            cellDates: true //有日期
           });
           outdata = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-          // 导出格式为json，{表头：[]，表数据：[]}
-          // that.$emit("getResult", outdata);
-          // that.allExcelData = outdata;
           //处理数据
-          console.log('outdata',outdata);
+          console.log("outdata", outdata);
           that.allExcelData = that.handleData(outdata);
         };
         reader.readAsArrayBuffer(f);
@@ -89,7 +87,6 @@ export default {
     handleData(data) {
       for (let item in data) {
         for (let key in data[item]) {
-          console.log(key);
           if (key == "类型") {
             data[item]["type"] = data[item][key];
           } else if (key == "日期") {
@@ -103,10 +100,31 @@ export default {
       }
       return data;
     },
-    
+
     //导出表格
     ExportExcel() {
       console.log("导出表格！");
+      const { columns } = this;
+      require.ensure([], () => {
+        const { export_json_to_excel } = require("@/vendor/Export2Excel");
+        //  ---require 括号里面是相对路径其实是引用  Export2Excel.js
+        const tHeader = ["类型", "姓名", "日期", "地址"];
+        //  ----tHeader 数组里面放的是字段的对应名
+        const filterVal = ["type", "name", "date", "address"];
+        //filterVal  字段对应的值
+        columns &&
+          columns.map(data => {
+            tHeader.push(data.value);
+            filterVal.push(data.key);
+          });
+        const list = this.allExcelData;
+        // 对应的json数组
+        const data = this.formatJson(filterVal, list);
+        export_json_to_excel(tHeader, data, "人员状况");
+      });
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]));
     }
   }
 };
