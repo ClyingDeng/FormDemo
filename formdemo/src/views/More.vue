@@ -2,18 +2,17 @@
   <div class="more">
     <!-- <div class="head">
        <div class="buttom ">导入表格</div> 
-    </div> -->
+    </div>-->
     <div class="content">
-      <MoreForm :list="allExcelData"></MoreForm>
+      <MoreForm 0></MoreForm>
     </div>
     <div class="footer">
-      <div class="buttom">导出</div>
+      <div class="buttom" @click="exportExcel">导出</div>
     </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import MoreForm from "@/components/MoreForm.vue";
 
 export default {
@@ -84,6 +83,64 @@ export default {
         }
       ] //接收excel数据
     };
+  },
+  methods: {
+    exportExcel() {
+      console.log("导出");
+      const list = [];
+      let _this = this;
+      this.allExcelData.forEach(item => {
+        list.push({
+          tHeader: ["类型", "姓名", "日期", "地址"],
+          filterVal: ["type", "name", "date", "address"],
+          tableDatas: item.formList,
+          sheetName: item.formName
+        });
+      });
+      // console.log(list);
+      require.ensure([], () => {
+        const { export_json_to_excel } = require("@/vendor/Export2Excel2");
+        //  ---require 括号里面是相对路径其实是引用  Export2Excel.js
+
+        let tHeader = [];
+        let dataArr = [];
+        let sheetnames = [];
+        for (var i in list) {
+          tHeader.push(list[i].tHeader);
+          dataArr.push(_this.formatJson(list[i].filterVal, list[i].tableDatas));
+          sheetnames.push(list[i].sheetName);
+        }
+
+        export_json_to_excel({
+          header: tHeader,
+          data: dataArr,
+          sheetname: sheetnames,
+          filename: "派出所值班明细表" + this.getDay(0)
+        });
+      });
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]));
+    },
+    //获取哪天的日期，当天 day = 0;昨天 day = -1;明天 day = 1;
+    getDay(day) {
+      var today = new Date();
+      var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+      today.setTime(targetday_milliseconds); //注意，这行是关键代码
+      var tYear = today.getFullYear();
+      var tMonth = today.getMonth();
+      var tDate = today.getDate();
+      tMonth = this.doHandleMonth(tMonth + 1);
+      tDate = this.doHandleMonth(tDate);
+      return tYear + "-" + tMonth + "-" + tDate;
+    },
+    doHandleMonth(month) {
+      var m = month;
+      if (month.toString().length == 1) {
+        m = "0" + month;
+      }
+      return m;
+    }
   }
 };
 </script>
