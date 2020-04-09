@@ -4,7 +4,7 @@
        <div class="buttom ">导入表格</div> 
     </div>-->
     <div class="content">
-      <MoreForm :list="allExcelData"></MoreForm>
+      <MoreForm 0></MoreForm>
     </div>
     <div class="footer">
       <div class="buttom" @click="exportExcel">导出</div>
@@ -13,7 +13,6 @@
 </template>
 
 <script>
-// import XLSX from "xlsx";
 import MoreForm from "@/components/MoreForm.vue";
 
 export default {
