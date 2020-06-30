@@ -19,10 +19,14 @@ export default {
   components: {
     RowSpan
   },
+  mounted() {
+    // this.sum(0.7, 1, 2, 3, 4);
+  },
   methods: {
-    importExcel() {
-      console.log("导入表格！");
-    }
+    // sum(discount, ...goods) {
+    //   let total = goods.reduce((a, b) => a + b);
+    //   console.log(goods, total * discount);
+    // }
   }
 };
 </script>
