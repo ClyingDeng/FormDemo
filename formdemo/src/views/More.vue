@@ -4,7 +4,7 @@
        <div class="buttom ">导入表格</div> 
     </div>-->
     <div class="content">
-      <MoreForm 0></MoreForm>
+      <MoreForm></MoreForm>
     </div>
     <div class="footer">
       <div class="buttom" @click="exportExcel">导出</div>
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+// @ is an alias to /src
 import MoreForm from "@/components/MoreForm.vue";
 
 export default {
