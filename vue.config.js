@@ -1,6 +1,6 @@
 const path = require('path');
 module.exports = {
-  publicPath: '/formDemo',
+  publicPath: '/FormDemo',
   outputDir: "dist",
   assetsDir: 'static',
   devServer: {
