@@ -7,6 +7,7 @@
       :header-cell-style="headerStyle"
       :height="height"
       :ref="refs"
+      :show-summary="showSummary"
     >
       <template v-for="item in tHeads">
         <!-- 标签 -->
@@ -78,12 +79,11 @@
           :type="item.type"
         >
           <template v-if="item.children && item.children.length > 0">
-            <!-- <el-table-column
+            <variety-column-item
               v-for="child in item.children"
               :key="child.props"
-              :prop="child.props"
-            ></el-table-column> -->
-            <variety-column-item :list="item.children"></variety-column-item>
+              :child="child"
+            ></variety-column-item>
           </template>
         </el-table-column>
       </template>
@@ -122,6 +122,14 @@ export default {
     refs: {
       type: String,
       default: '',
+    },
+    summaryMethod: {
+      type: Function,
+      default: () => {},
+    },
+    showSummary: {
+      type: Boolean,
+      default: false,
     },
   },
   components: { VarietyColumnItem },

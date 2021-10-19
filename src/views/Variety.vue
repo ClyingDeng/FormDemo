@@ -47,11 +47,6 @@
           <template v-slot:customizeBody="{ customizeBody }">
             自定义体:{{ customizeBody.row.address }}
           </template>
-          <!-- <template v-slot:customizeHeader="{ customizeHeader }">
-            <el-button @click="handleEdit(customizeHeader.$index, customizeHeader.row)">
-              自定义头
-            </el-button>
-          </template> -->
         </variety-form>
       </div>
       <div class="table">
@@ -71,11 +66,16 @@
       </div>
       <div class="table">
         <p>多级表头</p>
+        <variety-form :refs="refs" :tHeads="tHeads6" :tableData="tableData4"></variety-form>
+      </div>
+      <div class="table">
+        <p>表尾合计行</p>
         <variety-form
-          ref="multiple"
-          :refs="refs"
-          :tHeads="tHeads6"
-          :tableData="tableData4"
+          :tHeads="tHeads7"
+          :tableData="tableData5"
+          :summaryMethod="getSummaries"
+          showSummary
+          :height="height"
         ></variety-form>
       </div>
     </div>
@@ -478,26 +478,24 @@ export default {
             {
               label: '姓名',
               props: 'name',
-              width: '120',
+              width: '200',
               sortable: false,
               align: 'center',
             },
             {
               label: '地址',
-              props: 'address',
-              width: '400',
               sortable: false,
               align: 'left',
               children: [
                 {
                   label: '省份',
                   props: 'province',
-                  width: '120',
+                  width: '150',
                 },
                 {
                   label: '市区',
                   props: 'city',
-                  width: '120',
+                  width: '200',
                 },
                 {
                   label: '详细地址',
@@ -527,6 +525,59 @@ export default {
           zip: 200333,
         },
       ],
+      tHeads7: [
+        {
+          label: 'ID',
+          props: 'id',
+          width: '200',
+          sortable: false,
+          align: 'center',
+        },
+        {
+          label: '姓名',
+          props: 'name',
+          width: '200',
+          sortable: false,
+          align: 'center',
+        },
+        {
+          label: '数值1',
+          props: 'amount1',
+          width: '200',
+          sortable: false,
+          align: 'left',
+        },
+        {
+          label: '数值2',
+          props: 'amount2',
+          width: '200',
+          sortable: false,
+          align: 'center',
+        },
+        {
+          label: '数值3',
+          props: 'amount3',
+          width: '200',
+          sortable: false,
+          align: 'center',
+        },
+      ],
+      tableData5: [
+        {
+          id: '12987122',
+          name: '王小虎',
+          amount1: '234',
+          amount2: '3.2',
+          amount3: 10,
+        },
+        {
+          id: '12987123',
+          name: '王小虎',
+          amount1: '165',
+          amount2: '4.43',
+          amount3: 12,
+        },
+      ],
     }
   },
   methods: {
@@ -550,6 +601,32 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '总价'
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] += ' 元'
+        } else {
+          sums[index] = 'N/A'
+        }
+      })
+
+      return sums
     },
   },
 }
