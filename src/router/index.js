@@ -20,6 +20,11 @@ Vue.use(VueRouter)
     name: 'more',
     component: () => import('../views/More.vue')
   },
+  {
+    path: '/variety',
+    name: 'variety',
+    component: () => import('../views/Variety.vue')
+  },
 ]
 
 const router = new VueRouter({

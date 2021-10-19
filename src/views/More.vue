@@ -4,7 +4,7 @@
        <div class="buttom ">导入表格</div> 
     </div>-->
     <div class="content">
-      <MoreForm></MoreForm>
+      <MoreForm :list="allExcelData"></MoreForm>
     </div>
     <div class="footer">
       <div class="buttom" @click="exportExcel">导出</div>
@@ -116,7 +116,7 @@ export default {
           header: tHeader,
           data: dataArr,
           sheetname: sheetnames,
-          filename: "派出所值班明细表" + this.getDay(0)
+          filename: "值班明细表" + this.getDay(0)
         });
       });
     },
