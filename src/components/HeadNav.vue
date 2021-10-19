@@ -10,6 +10,9 @@
       <li>
         <router-link to="/more" exact>多表格操作</router-link>
       </li>
+      <li>
+        <router-link to="/variety" exact>表格不同样式封装</router-link>
+      </li>
     </ul>
   </div>
 </template>

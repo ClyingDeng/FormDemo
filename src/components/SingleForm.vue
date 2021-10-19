@@ -26,7 +26,7 @@ export default {
     list: Array
   },
   mounted() {
-    console.log("asasas", this.list);
+    // console.log("asasas", this.list);
   },
   data() {
     return {
