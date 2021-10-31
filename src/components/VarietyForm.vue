@@ -67,7 +67,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          v-else
+          v-if="item.children && item.children.length > 0"
           :key="item.props"
           :fixed="item.fixed"
           :prop="item.props"
@@ -78,14 +78,24 @@
           :class-name="item.className"
           :type="item.type"
         >
-          <template v-if="item.children && item.children.length > 0">
-            <variety-column-item
-              v-for="child in item.children"
-              :key="child.props"
-              :child="child"
-            ></variety-column-item>
-          </template>
+          <variety-column-item
+            v-for="child in item.children"
+            :key="child.props"
+            :child="child"
+          ></variety-column-item>
         </el-table-column>
+        <el-table-column
+          v-else
+          :key="item.props"
+          :fixed="item.fixed"
+          :prop="item.props"
+          :label="item.label"
+          :width="item.width"
+          :align="item.headerAlign"
+          :sortable="item.sortable"
+          :class-name="item.className"
+          :type="item.type"
+        ></el-table-column>
       </template>
     </el-table>
   </div>
